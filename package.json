@@ -1,0 +1,14 @@
+{
+  "name": "classicwow-to-guidelime",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lukeknoot/classicwow-to-guidelime",
+  "author": "lukeknoot",
+  "license": "GNU GPLv3",
+  "scripts": {
+    "generateGuide": "tsc && node src/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.12"
+  }
+}
