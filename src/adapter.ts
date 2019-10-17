@@ -8,7 +8,7 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     const classIdx = 3;
     const questIdIdx = 6;
     const amountIdx = 7;
-    const questName = 8; // location for set hearth
+    const questNameIdx = 8; // location for set hearth
     const npcName = 9;
     const npcId = 10;
     const coordIdx = 12;
@@ -62,10 +62,10 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
 
     const hearth = () => {
         if (actionLine === 'Set Hearth') {
-            const location = classicWowStep[questName].replace('at ', '');
+            const location = classicWowStep[questNameIdx].replace('at ', '');
             return `[S ${location}]`
         } else if (actionLine === 'Hearth') {
-            const location = classicWowStep[questName].replace('to ', '');
+            const location = classicWowStep[questNameIdx].replace('to ', '');
             return `[H ${location}]`
         } else {
             return '';
@@ -100,11 +100,15 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     const getQuestLine = () => {
         const questKey = questKeys[actionLine];
         if (typeof questKey === 'undefined') {
-            return `${trimSqBrackets(classicWowStep[questName])}`
+            return `${trimSqBrackets(classicWowStep[questNameIdx])}`
         } else {
             const questId = trimSqBrackets(classicWowStep[questIdIdx]);
-            const item = actionLine === 'Accept Item Quest' ? `(Item: ${trimSqBrackets(classicWowStep[npcName])})` : ''
-            return `[Q${questKey}${questId}] ${item}`
+            if (questId !== '') {
+                const item = actionLine === 'Accept Item Quest' ? `(Item: ${trimSqBrackets(classicWowStep[npcName])})` : ''
+                return `[Q${questKey}${questId}] ${item}`
+            } else {
+                return `${trimSqBrackets(classicWowStep[questNameIdx])}`
+            }
         }
     }
 

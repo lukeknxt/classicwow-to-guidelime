@@ -6,21 +6,18 @@ const fs = require('fs');
 
 type GuidelimeGuide = { [partName: string]: Array<string> }
 
-function writeTocFile(title: string, dir: string, partList: Array<string>): void {
+function writeTocFile(wowRace: string, wowClass: string, title: string, dir: string, partList: Array<string>): void {
     const toc = [
         `## Title: Guidelime_${title}`,
         "## Author: lukeknoot",
         "## Version: 0.1.0",
         "## Interface: 11302",
         "## Dependencies: Guidelime",
-        `## Notes: Guide for leveling a ${title}`,
+        `## Notes: Guide for leveling a ${wowRace} ${wowClass}`,
         ""
     ].concat(partList).join('\n')
 
-    fs.writeFileSync(`${dir}/Guidelime_${title}.toc`, toc, function (err) {
-        if (err) throw err;
-        console.log(`Wrote ${title}.toc`);
-    });
+    fs.writeFileSync(`${dir}/Guidelime_${title}.toc`, toc);
 }
 
 function getFileNames(wowRace: string): [string, string] {
@@ -32,10 +29,7 @@ function writeGuide(guide: GuidelimeGuide, dir: string): void {
     Object.keys(guide).forEach(fileName => {
         const partLines = guide[fileName];
         const content = `${partLines.join("\n")}`;
-        fs.writeFileSync(`${dir}/${fileName}`, content, function (err) {
-            if (err) throw err;
-            console.log(`Wrote ${fileName}`);
-        });
+        fs.writeFileSync(`${dir}/${fileName}`, content);
     })
 }
 
@@ -57,15 +51,16 @@ function generateGuide(wowRace: string, wowClass: string, title: string): Guidel
         const levelingSteps = ClassicWow.getLevelingSteps(wowClass, wowRace, levelingData);
         const header = 'Guidelime.registerGuide([[';
         const footer = `]], 'Guidelime_${title}')`;
-        return Object.keys(levelingSteps).reduce((parts, sectionNum) => {
-            const section = levelingSteps[sectionNum];
-            const guidelimeSteps: Array<string> = Object.keys(section).reduce((acc: Array<string>, stepNum: string) => {
-                const steps = section[stepNum];
-                return acc.concat(steps.map(toGuidelimeStep));
-            }, [header, `[N Part ${sectionNum}]`]);
-            guidelimeSteps.push(footer);
-            const fileName = `part${sectionNum}.lua`;
-            parts[fileName] = guidelimeSteps;
+        return Object.keys(levelingSteps).reduce((parts, levelBracket) => {
+            const steps = [
+                header,
+                `[N ${levelBracket}]`,
+                `[NX ${levelBracket}]`,
+                ...levelingSteps[levelBracket].map(toGuidelimeStep),
+                footer
+            ];
+            const fileName = `${levelBracket}.lua`;
+            parts[fileName] = steps;
             return parts;
         }, {})
     } catch (e) {
@@ -97,7 +92,7 @@ if (process.argv.length < 4) {
         const dir = `${__dirname}/tmp/Guidelime_${title}`
         createDir(dir);
         writeGuide(guide, dir);
-        writeTocFile(title, dir, Object.keys(guide));
+        writeTocFile(wowRaceCapital, wowClassCapital, title, dir, Object.keys(guide));
         // TODO: zip up folder
     }
 }

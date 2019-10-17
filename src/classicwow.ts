@@ -35,7 +35,7 @@ export const races = {
 
 export type LevelingData = { [section: string]: { [step: string]: Array<Array<string>> } }
 
-function filterSteps(wowClass: string, wowRace: string, t: Array<Array<string>>) {
+function filterSteps(wowClass: string, wowRace: string, t: Array<Array<string>>): Array<Array<string>> {
     const forRaceIdx = 2;
     const forClassIdx = 3;
     const classCode = classes[wowClass];
@@ -49,21 +49,37 @@ function filterSteps(wowClass: string, wowRace: string, t: Array<Array<string>>)
     });
 }
 
-export function getLevelingSteps(wowClass: string, wowRace: string, levelingData: LevelingData): LevelingData {
-    const newSections = {};
-    let newSectionIndex = 0;
-    Object.keys(levelingData).forEach(sectionIndex => {
-        const newSteps = {};
-        const steps = levelingData[sectionIndex];
-        let stepIndex = 0;
-        Object.keys(steps).forEach(stepNum => {
-            const substeps = steps[stepNum]
-            const filteredSteps = filterSteps(wowClass, wowRace, substeps);
-            if (filteredSteps.length > 0) {
-                newSteps[++stepIndex] = filteredSteps
-            }
+export function getLevelingSteps(wowClass: string, wowRace: string, levelingData: LevelingData): { [bracket: string]: Array<Array<string>> } {
+
+    const stepsByLevel: { [level: string]: Array<Array<string>> } = {};
+    let substepsInLevel = [];
+    Object.values(levelingData).forEach(steps => {
+        Object.values(steps).forEach(step => {
+            step.forEach(substep => {
+                substepsInLevel.push(substep);
+                if (substep[1].includes('DING ')) {
+                    const stepsLevel = Number(substep[1].replace('DING ', '')) - 1;
+                    stepsByLevel[stepsLevel] = filterSteps(wowClass, wowRace, substepsInLevel);
+                    substepsInLevel = [];
+                }
+            })
         })
-        newSections[++newSectionIndex] = newSteps
     })
-    return newSections;
+
+    const bracketedSteps = {};
+    let startLevel = '1';
+    let endLevel = '0';
+    let substeps = []
+    Object.keys(stepsByLevel).forEach(level => {
+        const steps = stepsByLevel[level];
+        substeps = substeps.concat(steps);
+        if (substeps.length > 300 || level === '59') {
+            endLevel = (Number(level) + 1).toString();
+            bracketedSteps[`${startLevel}-${endLevel}`] = substeps;
+            startLevel = endLevel;
+            substeps = [];
+        }
+    })
+
+    return bracketedSteps;
 }
