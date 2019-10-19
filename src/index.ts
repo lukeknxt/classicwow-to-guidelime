@@ -105,8 +105,8 @@ function writeZip(dir: string, title: string): void {
 if (process.argv.length < 4) {
   console.log('Please provide race and class to generate Guidelime guide for.');
 } else {
-  const wowRace = process.argv[2];
-  const wowClass = process.argv[3];
+  const wowRace = process.argv[2].toLowerCase();
+  const wowClass = process.argv[3].toLowerCase();
   if (typeof ClassicWow.classes[wowClass] === 'undefined') {
     console.log(`Class "${wowClass}" is invalid`);
   } else if (typeof ClassicWow.races[wowRace] === 'undefined') {
