@@ -14,5 +14,12 @@
   },
   "dependencies": {
     "jszip": "^3.2.2"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
   }
 }
