@@ -112,7 +112,8 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     }
   };
 
-  return `${actionLine} ${getQuestLine()} ${getAmount()} ${getNpc()} ${getObjective()} ${hearth()} ${coordsLine()} ${xpLine} ${getNotes()}`
+  return [actionLine, getQuestLine(), getAmount(), getNpc(), getObjective(), hearth(), coordsLine(), xpLine, getNotes()]
+    .join(" ")
     .replace(/\s+/g, " ")
     .trim();
 }
