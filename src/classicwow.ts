@@ -36,6 +36,17 @@ export const races = {
   nightelf: 'N',
 };
 
+export const raceClassMapping = {
+  orc: ['hunter', 'rogue', 'shaman', 'warlock', 'warrior'],
+  troll: ['hunter', 'mage', 'priest', 'rogue', 'shaman', 'warrior'],
+  tauren: ['druid', 'hunter', 'shaman', 'warrior'],
+  undead: ['mage', 'priest', 'rogue', 'warlock', 'warrior'],
+  human: ['mage', 'paladin', 'priest', 'rogue', 'warlock', 'warrior'],
+  dwarf: ['hunter', 'paladin', 'priest', 'rogue', 'warrior'],
+  gnome: ['mage', 'rogue', 'warlock', 'warrior'],
+  nightelf: ['druid', 'hunter', 'priest', 'rogue', 'warrior'],
+};
+
 function getFileNames(wowRace: string): [string, string] {
   const [startZone, faction] = raceZoneFaction[wowRace];
   return [`${startZone}.json`, `${faction}.json`];
