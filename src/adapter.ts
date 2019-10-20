@@ -12,6 +12,9 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
   // const requirement = 15;
   const extraNotes = 16;
 
+  const xpLine = `${classicWowStep[xpIdx]}`;
+  const actionLine = classicWowStep[actionIdx];
+
   const toTitleCaseNoDash = (str: string): string =>
     str
       .toLowerCase()
@@ -44,8 +47,6 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     return str.replace(/[[|\]]/g, '');
   };
 
-  const xpLine = `${classicWowStep[xpIdx]}`;
-  const actionLine = classicWowStep[actionIdx];
   const questKeys = {
     'Hand In': 'T',
     'Hand In*': 'T',
@@ -60,7 +61,7 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     'Complete Quest': 'C',
   };
 
-  const hearth = () => {
+  const hearth = (): string => {
     if (actionLine === 'Set Hearth') {
       const location = classicWowStep[questNameIdx].replace('at ', '');
       return `[S ${location}]`;
@@ -72,15 +73,18 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     }
   };
 
-  const getNpc = () => {
-    if (actionLine === 'Loot' && classicWowStep[npcName] !== '') {
-      return `from ${classicWowStep[npcName]}`;
-    } else {
-      return '';
+  const getNpc = (): string => {
+    if (classicWowStep[npcName] !== '') {
+      if (actionLine === 'Loot') {
+        return `from ${classicWowStep[npcName]}`;
+      } else if (actionLine === 'Tame') {
+        return `${classicWowStep[npcName]}`;
+      }
     }
+    return '';
   };
 
-  const getObjective = () => {
+  const getObjective = (): string => {
     if (actionLine === 'Complete Objective') {
       const objective = trimSqBrackets(classicWowStep[npcName]);
       return `(${objective})`;
@@ -89,7 +93,7 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     }
   };
 
-  const getNotes = () => {
+  const getNotes = (): string => {
     if (classicWowStep[extraNotes] !== '') {
       return `(${trimSqBrackets(classicWowStep[extraNotes])})`;
     } else {
@@ -97,7 +101,7 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     }
   };
 
-  const getQuestLine = () => {
+  const getQuestLine = (): string => {
     const questKey = questKeys[actionLine];
     if (typeof questKey === 'undefined') {
       return `${trimSqBrackets(classicWowStep[questNameIdx])}`;
