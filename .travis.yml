@@ -1,0 +1,12 @@
+dist: trusty
+language: node_js
+node_js:
+  - '7'
+before_install:
+  - nvm install lts/dubnium
+  - nvm use lts/dubnium
+  - npm install yarn
+script:
+  - yarn run lint
+  - yarn run test
+  - yarn run generateAll
