@@ -1,4 +1,8 @@
-export const raceZoneFaction = {
+import * as fs from 'fs';
+
+export type LevelingData = { [section: string]: { [step: string]: Array<Array<string>> } };
+
+const raceZoneFaction = {
   undead: ['tirisfal', 'horde'],
   tauren: ['mulgore', 'horde'],
   orc: ['durotar', 'horde'],
@@ -32,7 +36,31 @@ export const races = {
   nightelf: 'N',
 };
 
-export type LevelingData = { [section: string]: { [step: string]: Array<Array<string>> } };
+function getFileNames(wowRace: string): [string, string] {
+  const [startZone, faction] = raceZoneFaction[wowRace];
+  return [`${startZone}.json`, `${faction}.json`];
+}
+
+function loadResource(fileName: string): string {
+  return fs.readFileSync(__dirname + '/resources/' + fileName, 'utf-8');
+}
+
+function appendLevelingData(first: LevelingData, second: LevelingData): LevelingData {
+  const finalSection = Object.keys(first).length;
+  Object.keys(second).forEach(sectionNumber => {
+    const steps = second[sectionNumber];
+    first[finalSection + Number(sectionNumber)] = steps;
+  });
+  return first;
+}
+
+function loadLevelingData(wowRace: string): LevelingData {
+  const [startZoneFile, factionFile] = getFileNames(wowRace);
+  const startZoneLevelingData = JSON.parse(loadResource(startZoneFile));
+  const factionLevelingData = JSON.parse(loadResource(factionFile));
+  const levelingData = appendLevelingData(startZoneLevelingData, factionLevelingData);
+  return levelingData;
+}
 
 function filterSteps(
   wowClass: string,
@@ -55,11 +83,21 @@ function filterSteps(
   });
 }
 
+/**
+ * Converts the default section/steps structure of the classic.wow
+ * guides into a friendlier structure where steps are sectioned
+ * by level.
+ *
+ * @param wowRace the wow race to parse steps for
+ * @param wowClass the wow class to parse steps for
+ * @returns A map where keys are the level brackets and values are an array of steps.
+ */
 export function getLevelingSteps(
-  wowClass: string,
   wowRace: string,
-  levelingData: LevelingData
+  wowClass: string
 ): { [bracket: string]: Array<Array<string>> } {
+  const levelingData = loadLevelingData(wowRace);
+
   const stepsByLevel: { [level: string]: Array<Array<string>> } = {};
   let substepsInLevel = [];
   Object.values(levelingData).forEach(steps => {
