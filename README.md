@@ -1,6 +1,6 @@
 # classicwow-to-guidelime
 
-A project to provide the convenience of Guidelime with the sophistication of the classicwow.live levelling guides.
+A project to provide the convenience of [Guidelime](https://github.com/max-ri/Guidelime) with the sophistication of the [classicwow.live](https://classicwow.live/leveling) levelling guides.
 
 ## Setup
 
