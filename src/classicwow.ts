@@ -46,7 +46,12 @@ function filterSteps(
   return steps.filter((step: Array<string>): boolean => {
     const containsRace = step[forRaceIdx].includes(raceCode);
     const containsClass = step[forClassIdx].includes(classCode);
-    return containsClass || containsRace || (step[forClassIdx] === '' && step[forRaceIdx] === '');
+    return (
+      (containsClass && step[forRaceIdx] === '') ||
+      (containsRace && step[forClassIdx] === '') ||
+      (containsRace && containsClass) ||
+      (step[forClassIdx] === '' && step[forRaceIdx] === '')
+    );
   });
 }
 
