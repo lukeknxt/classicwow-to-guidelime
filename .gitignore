@@ -20,3 +20,4 @@ node_modules
 Thumbs.db
 dist/**/*
 *.js
+!jest.config.js
