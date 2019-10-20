@@ -7,7 +7,7 @@
   "license": "GPL-3.0-only",
   "scripts": {
     "generateGuide": "tsc && node src/index.js",
-    "test": "jest"
+    "test": "tsc && jest"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
