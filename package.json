@@ -9,7 +9,7 @@
     "generateGuide": "tsc && node src/index.js",
     "test": "tsc && jest",
     "generateAll": "tsc scripts/*.ts && node scripts/generate_all.js",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint **/*.ts"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
