@@ -14,11 +14,15 @@ export function generateGuide(wowRace: string, wowClass: string): GuidelimeGuide
     const levelingSteps = ClassicWow.getLevelingSteps(wowRace, wowClass);
     const header = 'Guidelime.registerGuide([[';
     const footer = `]], 'Guidelime_${getGuideTitle(wowRace, wowClass)}')`;
-    return Object.keys(levelingSteps).reduce((parts, levelBracket) => {
+    return Object.keys(levelingSteps).reduce((parts, levelBracket, i, levelBrackets) => {
+      const nextLevelBracket = levelBrackets[i + 1];
+      const titles = [`[N ${levelBracket} classicwow.live ${wowRace} ${wowClass}]`];
+      if (typeof nextLevelBracket !== 'undefined') {
+        titles.push(`[NX ${nextLevelBracket} classicwow.live ${wowRace} ${wowClass}]`);
+      }
       const steps = [
         header,
-        `[N ${levelBracket} classicwow.live ${wowRace} ${wowClass} levels ${levelBracket}]`,
-        `[NX ${levelBracket} classicwow.live ${wowRace} ${wowClass} levels ${levelBracket}]`,
+        ...titles,
         ...levelingSteps[levelBracket].map(Adapter.toGuidelimeStep),
         footer,
       ];
