@@ -17,9 +17,12 @@ export function generateGuide(wowRace: string, wowClass: string): GuidelimeGuide
     const footer = `]], 'Guidelime_${getGuideTitle(wowRace, wowClass)}')`;
     return Object.keys(levelingSteps).reduce((parts, levelBracket, i, levelBrackets) => {
       const nextLevelBracket = levelBrackets[i + 1];
-      const titles = [`[GA ${capitalize(wowRace)},${capitalize(wowClass)}]`, `[N ${levelBracket}]`];
+      const titles = [
+        `[GA ${capitalize(wowRace)},${capitalize(wowClass)}]`,
+        `[N ${levelBracket} Guide]`,
+      ];
       if (typeof nextLevelBracket !== 'undefined') {
-        titles.push(`[NX ${nextLevelBracket}]`);
+        titles.push(`[NX ${nextLevelBracket} Guide]`);
       }
       const steps = [
         header,
