@@ -3,10 +3,11 @@ import * as ClassicWow from './classicwow';
 
 export type GuidelimeGuide = { [partName: string]: Array<string> };
 
+const capitalize = (str: string): string =>
+  str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+
 export function getGuideTitle(wowRace: string, wowClass: string): string {
-  const wowRaceCapital = wowRace.charAt(0).toUpperCase() + wowRace.substring(1).toLowerCase();
-  const wowClassCapital = wowClass.charAt(0).toUpperCase() + wowClass.substring(1).toLowerCase();
-  return wowRaceCapital + wowClassCapital;
+  return capitalize(wowRace) + capitalize(wowClass);
 }
 
 export function generateGuide(wowRace: string, wowClass: string): GuidelimeGuide {
@@ -16,9 +17,9 @@ export function generateGuide(wowRace: string, wowClass: string): GuidelimeGuide
     const footer = `]], 'Guidelime_${getGuideTitle(wowRace, wowClass)}')`;
     return Object.keys(levelingSteps).reduce((parts, levelBracket, i, levelBrackets) => {
       const nextLevelBracket = levelBrackets[i + 1];
-      const titles = [`[N ${levelBracket} classicwow.live ${wowRace} ${wowClass}]`];
+      const titles = [`[GA ${capitalize(wowRace)},${capitalize(wowClass)}]`, `[N ${levelBracket}]`];
       if (typeof nextLevelBracket !== 'undefined') {
-        titles.push(`[NX ${nextLevelBracket} classicwow.live ${wowRace} ${wowClass}]`);
+        titles.push(`[NX ${nextLevelBracket}]`);
       }
       const steps = [
         header,
