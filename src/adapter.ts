@@ -104,11 +104,7 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
   };
 
   const getObjective = (): string => {
-    if (
-      ['Complete Objective', 'Complete Quest', 'Progress Objective', 'Progress Quest'].includes(
-        actionLine
-      )
-    ) {
+    if (['Complete Objective', 'Progress Objective', 'Progress Quest'].includes(actionLine)) {
       const objective = trimSqBrackets(classicWowStep[npcName]);
       return objective ? `(${objective})` : '';
     } else {
@@ -126,13 +122,13 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
 
   const getGrindLine = (): string => {
     const step = classicWowStep[questNameIdx];
-    const partialLevelRe = new RegExp('^to ([0-9]*) / ([0-9]*) L([0-9]*)$');
+    const partialLevelRe = new RegExp('^to ([0-9]*) / [0-9]* L([0-9]*)$');
     const fullLevelRe = new RegExp('^to ([0-9]*)$');
 
     const partialLevelMatch = step.match(partialLevelRe);
     if (partialLevelMatch) {
-      const [, numer, , lv] = partialLevelMatch;
-      return `to [XP${lv}+${numer} ${numer}xp into ${lv}]`;
+      const [, xp, lvl] = partialLevelMatch;
+      return `to [XP${lvl}+${xp} ${xp}xp into ${lvl}]`;
     }
 
     const fullLevelMatch = step.match(fullLevelRe);
