@@ -69,8 +69,6 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     Skip: 'S',
     'Complete Quest': 'C',
     'Complete Objective': 'C',
-    'Progress Quest': 'C',
-    'Progress Objective': 'C',
   };
 
   const getNpc = (): string => {
