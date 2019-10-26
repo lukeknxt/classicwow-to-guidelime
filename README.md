@@ -4,16 +4,32 @@
 
 A project to provide the convenience of [Guidelime](https://github.com/max-ri/Guidelime) with the sophistication of the [classicwow.live](https://classicwow.live/leveling) levelling guides.
 
-## Setup
+## Installation
+
+The latest guides available for download can be found [here](https://github.com/lukeknoot/classicwow-to-guidelime/releases).
+
+Follow the [Guidelime instructions](https://github.com/max-ri/Guidelime/wiki/FAQ#when-i-have-downloaded-a-guide-module-where-should-i-install-it) to install them and make them available to the addon.
+
+## Contributing
+
+### Setup
 
 ```
 yarn install
 ```
 
-## Usage
+### Usage
+
+For a single guide:
 
 ```
 yarn run generateGuide <race> <class>
+```
+
+For all guides:
+
+```
+yarn run generateAll
 ```
 
 E.g.
@@ -22,9 +38,9 @@ E.g.
 yarn run generateGuide human warrior
 ```
 
-The generated guide can then be found at `src/tmp/Guidelime_<Race><Class>` alongside a zip file that is generated for sharing convenience. Follow the instructions [here](https://github.com/max-ri/Guidelime/wiki/FAQ#when-i-have-downloaded-a-guide-module-where-should-i-install-it) to import this into Guidelime.
+The generated guide can then be found at `src/tmp/Guidelime_<Race><Class>` alongside a zip file that is generated for sharing convenience.
 
-## Running Tests
+### Running Tests
 
 ```
 yarn run test
