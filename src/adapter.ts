@@ -65,7 +65,6 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     'Pick Up*': 'A',
     'Accept Item Quest': 'A',
     'Accept Item Quest*': 'A',
-    'Skip for now': 'S',
     Skip: 'S',
     'Complete Quest': 'C',
     'Complete Objective': 'C',
