@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - 'lts/dubnium'
 before_install:
-  - npm install yarn
+  - npm install yarn --no-save
 script:
   - yarn run lint
   - yarn run test
