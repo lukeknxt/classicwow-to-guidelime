@@ -149,6 +149,8 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
       return `at [P ${removeFirstWord(step)}]`;
     } else if (actionLine === 'Grind') {
       return getGrindLine();
+    } else if (/^DING\s(\d+)/.test(actionLine)) {
+      return `[XP${RegExp.$1}]`;
     }
     return `${trimSqBrackets(step)}`;
   };
