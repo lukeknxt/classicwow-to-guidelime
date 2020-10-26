@@ -15,7 +15,7 @@ Follow the [Guidelime instructions](https://github.com/max-ri/Guidelime/wiki/FAQ
 ### Setup
 
 ```
-yarn install
+npm install
 ```
 
 ### Usage
@@ -23,19 +23,19 @@ yarn install
 For a single guide:
 
 ```
-yarn run generateGuide <race> <class>
+npm run generateGuide <race> <class>
 ```
 
 For all guides:
 
 ```
-yarn run generateAll
+npm run generateAll
 ```
 
 E.g.
 
 ```
-yarn run generateGuide human warrior
+npm run generateGuide human warrior
 ```
 
 The generated guide can then be found at `src/tmp/Guidelime_<Race><Class>` alongside a zip file that is generated for sharing convenience.
@@ -43,5 +43,5 @@ The generated guide can then be found at `src/tmp/Guidelime_<Race><Class>` along
 ### Running Tests
 
 ```
-yarn run test
+npm run test
 ```
