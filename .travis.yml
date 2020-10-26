@@ -5,6 +5,7 @@ node_js:
 before_install:
   - npm install yarn --no-save
 script:
+  - yarn install
   - yarn run lint
   - yarn run test
   - yarn run generateAll

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { getGuideTitle, GuidelimeGuide } from './guidelime';
-import JSZip = require('jszip');
+import * as JSZip from 'jszip';
 
 function writeTocFile(
   wowRace: string,

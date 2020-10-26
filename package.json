@@ -30,8 +30,8 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "fs-extra": "^8.1.0",
-    "jszip": "^3.2.2"
+    "fs-extra": "^9.0.1",
+    "jszip": "^3.5.0"
   },
   "prettier": {
     "printWidth": 100,
