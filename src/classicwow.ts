@@ -58,7 +58,7 @@ function loadResource(fileName: string): string {
 
 function appendLevelingData(first: LevelingData, second: LevelingData): LevelingData {
   const finalSection = Object.keys(first).length;
-  Object.keys(second).forEach(sectionNumber => {
+  Object.keys(second).forEach((sectionNumber) => {
     const steps = second[sectionNumber];
     first[finalSection + Number(sectionNumber)] = steps;
   });
@@ -111,9 +111,9 @@ export function getLevelingSteps(
 
   const stepsByLevel: { [level: string]: Array<Array<string>> } = {};
   let substepsInLevel = [];
-  Object.values(levelingData).forEach(steps => {
-    Object.values(steps).forEach(step => {
-      step.forEach(substep => {
+  Object.values(levelingData).forEach((steps) => {
+    Object.values(steps).forEach((step) => {
+      step.forEach((substep) => {
         substepsInLevel.push(substep);
         if (substep[1].includes('DING ')) {
           const stepsLevel = Number(substep[1].replace('DING ', '')) - 1;
@@ -128,7 +128,7 @@ export function getLevelingSteps(
   let startLevel = '1';
   let endLevel = '0';
   let substeps = [];
-  Object.keys(stepsByLevel).forEach(level => {
+  Object.keys(stepsByLevel).forEach((level) => {
     const steps = stepsByLevel[level];
     substeps = substeps.concat(steps);
     if (substeps.length > 300 || level === '59') {

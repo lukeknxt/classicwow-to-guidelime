@@ -8,9 +8,9 @@ console.log('Deleting old guides');
 
 fs.removeSync(__dirname + '/../src/tmp');
 
-Object.keys(ClassicWow.raceClassMapping).forEach(wowRace => {
+Object.keys(ClassicWow.raceClassMapping).forEach((wowRace) => {
   const classes = ClassicWow.raceClassMapping[wowRace];
-  classes.forEach(wowClass => {
+  classes.forEach((wowClass) => {
     console.log('Generating Guidelime guide for ' + wowRace + ' ' + wowClass);
     const guide = Guidelime.generateGuide(wowRace, wowClass);
     Writer.writeGuide(wowRace, wowClass, guide);

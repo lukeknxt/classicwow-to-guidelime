@@ -1,8 +1,8 @@
-dist: trusty
+dist: bionic
 language: node_js
 cache: npm
 node_js:
-  - 'lts/erbium'
+  - 'lts/fermium'
 script:
   - npm run lint
   - npm run test
