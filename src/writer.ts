@@ -33,13 +33,13 @@ function writeZip(dir: string, title: string): void {
   const zip = new JSZip();
   const guideFolder = zip.folder(`Guidelime_${title}`);
   const files = fs.readdirSync(dir, 'utf-8');
-  files.forEach(f => {
+  files.forEach((f) => {
     guideFolder.file(f, fs.readFileSync(`${dir}/${f}`));
   });
   zip
     .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
     .pipe(fs.createWriteStream(`${dir}.zip`))
-    .on('finish', function() {
+    .on('finish', function () {
       console.log(`Wrote ${dir}.zip`);
     });
 }
@@ -48,7 +48,7 @@ export function writeGuide(wowRace: string, wowClass: string, guide: GuidelimeGu
   const dir = `${__dirname}/tmp/Guidelime_${getGuideTitle(wowRace, wowClass)}`;
   createDir(dir);
 
-  Object.keys(guide).forEach(fileName => {
+  Object.keys(guide).forEach((fileName) => {
     const partLines = guide[fileName];
     const content = `${partLines.join('\n')}`;
     fs.writeFileSync(`${dir}/${fileName}`, content);
