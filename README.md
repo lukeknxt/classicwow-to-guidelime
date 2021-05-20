@@ -14,6 +14,9 @@ Follow the [Guidelime instructions](https://github.com/max-ri/Guidelime/wiki/FAQ
 
 ### Setup
 
+Prerequisites
+- Node v10+
+
 ```
 npm install
 ```
