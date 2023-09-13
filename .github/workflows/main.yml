@@ -1,0 +1,53 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+        with:
+          version: 1.0.0
+      - run: bun install
+      - run: bun lint
+
+  format:
+    name: format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+        with:
+          version: 1.0.0
+      - run: bun install
+      - run: bun fmt
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+        with:
+          version: 1.0.0
+      - run: bun install
+      - run: bun test
+
+  test-generation:
+    name: test-generation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+        with:
+          version: 1.0.0
+      - run: bun install
+      - run: bun generateGuide human warrior
+      - run: bun generateAll

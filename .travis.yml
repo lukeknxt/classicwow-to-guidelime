@@ -1,9 +1,0 @@
-dist: bionic
-language: node_js
-cache: npm
-node_js:
-  - "lts/fermium"
-script:
-  - npm run lint
-  - npm run test
-  - npm run generateAll
