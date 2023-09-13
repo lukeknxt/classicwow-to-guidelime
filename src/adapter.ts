@@ -18,21 +18,21 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
   const toTitleCaseNoDash = (str: string): string =>
     str
       .toLowerCase()
-      .split('-')
+      .split("-")
       .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-      .join(' ');
+      .join(" ");
 
   const sanitizeCoords = (coords: string): string => {
-    const xy = coords.split(',');
+    const xy = coords.split(",");
     const x = (Number(xy[0]) || Number(xy[0].slice(1))).toFixed(1);
     const y = (Number(xy[1]) || Number(xy[1].slice(1))).toFixed(1);
-    return [x, y].join(',');
+    return [x, y].join(",");
   };
 
   const coordsLine = (): string => {
     const coords = classicWowStep[coordIdx];
-    if (coords === '') {
-      return '';
+    if (coords === "") {
+      return "";
     } else {
       const location = toTitleCaseNoDash(classicWowStep[zone]);
       return `[G ${sanitizeCoords(coords)} ${location}]`;
@@ -41,85 +41,95 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
 
   const getAmount = (): string => {
     if (
-      ['Buy', 'Bank Deposit', 'Bank Withdrawal', 'Save', 'Disenchant', 'Craft', 'Grind'].includes(
-        actionLine
-      ) &&
-      classicWowStep[amountIdx] !== ''
+      [
+        "Buy",
+        "Bank Deposit",
+        "Bank Withdrawal",
+        "Save",
+        "Disenchant",
+        "Craft",
+        "Grind",
+      ].includes(actionLine) &&
+      classicWowStep[amountIdx] !== ""
     ) {
       return `(Qty: ${classicWowStep[amountIdx]})`;
     } else {
-      return '';
+      return "";
     }
   };
 
-  const trimSqBrackets = (str: string): string => str.replace(/[[|\]]/g, '');
+  const trimSqBrackets = (str: string): string => str.replace(/[[|\]]/g, "");
 
-  const removeFirstWord = (str: string): string => str.replace(/^([^ ]+ )/, '');
+  const removeFirstWord = (str: string): string => str.replace(/^([^ ]+ )/, "");
 
-  const questKeys = {
-    'Hand In': 'T',
-    'Hand In*': 'T',
-    'Quick Hand In': 'T',
-    'Quick Hand In*': 'T',
-    'Pick Up': 'A',
-    'Pick Up*': 'A',
-    'Accept Item Quest': 'A',
-    'Accept Item Quest*': 'A',
-    Skip: 'S',
-    'Complete Quest': 'C',
+  const questKeys: Record<string, string> = {
+    "Hand In": "T",
+    "Hand In*": "T",
+    "Quick Hand In": "T",
+    "Quick Hand In*": "T",
+    "Pick Up": "A",
+    "Pick Up*": "A",
+    "Accept Item Quest": "A",
+    "Accept Item Quest*": "A",
+    Skip: "S",
+    "Complete Quest": "C",
   };
 
   const getNpc = (): string => {
-    if (classicWowStep[npcName] !== '') {
+    if (classicWowStep[npcName] !== "") {
       if (
         [
-          'Loot',
-          'Loot*',
-          'Get',
-          'Buy',
-          'Vendor',
-          'Repair',
-          'Vendor + Repair',
-          'Train',
-          'Bank Deposit',
-          'Bank Withdrawal',
-          'Hand In',
-          'Hand In*',
-          'Quick Hand In',
-          'Quick Hand In*',
-          'Pick Up',
-          'Pick Up*',
+          "Loot",
+          "Loot*",
+          "Get",
+          "Buy",
+          "Vendor",
+          "Repair",
+          "Vendor + Repair",
+          "Train",
+          "Bank Deposit",
+          "Bank Withdrawal",
+          "Hand In",
+          "Hand In*",
+          "Quick Hand In",
+          "Quick Hand In*",
+          "Pick Up",
+          "Pick Up*",
         ].includes(actionLine)
       ) {
         return `(${classicWowStep[npcName]})`;
-      } else if (actionLine === 'Tame') {
+      } else if (actionLine === "Tame") {
         return `${classicWowStep[npcName]}`;
       }
     }
-    return '';
+    return "";
   };
 
   const getObjective = (): string => {
-    if (['Complete Objective', 'Progress Objective', 'Progress Quest'].includes(actionLine)) {
+    if (
+      ["Complete Objective", "Progress Objective", "Progress Quest"].includes(
+        actionLine,
+      )
+    ) {
       const objective = trimSqBrackets(classicWowStep[npcName]);
-      return objective ? `(${objective})` : '';
+      return objective ? `(${objective})` : "";
     } else {
-      return '';
+      return "";
     }
   };
 
   const getNotes = (): string => {
-    if (classicWowStep[extraNotes] !== '') {
+    if (classicWowStep[extraNotes] !== "") {
       return `(${trimSqBrackets(classicWowStep[extraNotes])})`;
     } else {
-      return '';
+      return "";
     }
   };
 
   const getGrindLine = (): string => {
     const step = classicWowStep[questNameIdx];
-    const partialLevelRe = new RegExp('^to ([0-9]*) / [0-9]* L([0-9]*)$');
-    const fullLevelRe = new RegExp('^to ([0-9]*)$');
+    const partialLevelRe = new RegExp("^to ([0-9]*) / [0-9]* L([0-9]*)$");
+    const fullLevelRe = new RegExp("^to ([0-9]*)$");
 
     const partialLevelMatch = step.match(partialLevelRe);
     if (partialLevelMatch) {
@@ -139,15 +149,15 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
   const getOtherLine = (): string => {
     const step = classicWowStep[questNameIdx];
 
-    if (actionLine === 'Set Hearth') {
+    if (actionLine === "Set Hearth") {
       return `at [S ${removeFirstWord(step)}]`;
-    } else if (actionLine === 'Hearth') {
+    } else if (actionLine === "Hearth") {
       return `to [H ${removeFirstWord(step)}]`;
-    } else if (actionLine === 'Fly') {
+    } else if (actionLine === "Fly") {
       return `to [F ${removeFirstWord(step)}]`;
-    } else if (actionLine === 'Get Flight Path') {
+    } else if (actionLine === "Get Flight Path") {
       return `at [P ${removeFirstWord(step)}]`;
-    } else if (actionLine === 'Grind') {
+    } else if (actionLine === "Grind") {
       return getGrindLine();
     } else if (/^DING\s(\d+)/.test(actionLine)) {
       return `[XP${RegExp.$1}]`;
@@ -157,15 +167,17 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
 
   const getQuestLine = (): string => {
     const questKey = questKeys[actionLine];
-    if (typeof questKey === 'undefined') {
+    if (typeof questKey === "undefined") {
       return getOtherLine();
     }
 
     const questId = trimSqBrackets(classicWowStep[questIdIdx]);
-    if (questId !== '') {
-      const item = ['Accept Item Quest', 'Accept Item Quest*'].includes(actionLine)
+    if (questId !== "") {
+      const item = ["Accept Item Quest", "Accept Item Quest*"].includes(
+        actionLine,
+      )
         ? `(Item: ${trimSqBrackets(classicWowStep[npcName])})`
-        : '';
+        : "";
       return `[Q${questKey}${questId}] ${item}`;
     } else {
       return `${trimSqBrackets(classicWowStep[questNameIdx])}`;
@@ -173,16 +185,16 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
   };
 
   const getStepIcon = (): string => {
-    if (actionLine === 'Vendor') {
-      return '[V]';
-    } else if (actionLine === 'Repair') {
-      return '[R]';
-    } else if (actionLine === 'Vendor + Repair') {
-      return '[V][R]';
-    } else if (actionLine === 'Train') {
-      return '[T]';
+    if (actionLine === "Vendor") {
+      return "[V]";
+    } else if (actionLine === "Repair") {
+      return "[R]";
+    } else if (actionLine === "Vendor + Repair") {
+      return "[V][R]";
+    } else if (actionLine === "Train") {
+      return "[T]";
     }
-    return '';
+    return "";
   };
 
   return [
@@ -196,7 +208,7 @@ export function toGuidelimeStep(classicWowStep: Array<string>): GuidelimeStep {
     xpLine,
     getNotes(),
   ]
-    .join(' ')
-    .replace(/\s+/g, ' ')
+    .join(" ")
+    .replace(/\s+/g, " ")
     .trim();
 }

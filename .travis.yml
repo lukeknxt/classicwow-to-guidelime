@@ -2,7 +2,7 @@ dist: bionic
 language: node_js
 cache: npm
 node_js:
-  - 'lts/fermium'
+  - "lts/fermium"
 script:
   - npm run lint
   - npm run test

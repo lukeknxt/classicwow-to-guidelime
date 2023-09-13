@@ -1,47 +1,39 @@
 {
   "name": "classicwow-to-guidelime",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/lukeknoot/classicwow-to-guidelime",
-  "author": "lukeknoot",
-  "license": "GPL-3.0-only",
+  "module": "src/index.ts",
+  "type": "module",
   "scripts": {
-    "generateGuide": "tsc && node src/index.js",
-    "test": "tsc && jest",
-    "generateAll": "tsc scripts/*.ts && node scripts/generate_all.js",
-    "lint": "eslint **/*.ts"
+    "generateGuide": "bun src/index.ts",
+    "test": "bun test",
+    "generateAll": "bun scripts/generateAll.ts",
+    "lint": "eslint . --fix",
+    "fmt": "prettier . --write",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.2",
-    "@babel/preset-typescript": "^7.13.0",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.24.0",
-    "@typescript-eslint/parser": "^4.24.0",
-    "babel-jest": "^26.6.3",
-    "bufferutil": "^4.0.1",
-    "canvas": "^2.5.0",
-    "eslint": "^7.26.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-import": "^2.23.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "jest": "^26.6.0",
-    "prettier": "^2.3.0",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.2.4",
-    "utf-8-validate": "^5.0.2"
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "bun-types": "latest",
+    "eslint": "^8.49.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "husky": "^8.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   },
   "dependencies": {
-    "fs-extra": "^10.0.0",
-    "jszip": "^3.6.0"
+    "jszip": "^3.10.1"
   },
-  "prettier": {
-    "printWidth": 100,
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "bun lint",
+      "bun fmt"
+    ]
   }
 }

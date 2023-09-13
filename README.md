@@ -15,10 +15,11 @@ Follow the [Guidelime instructions](https://github.com/max-ri/Guidelime/wiki/FAQ
 ### Setup
 
 Prerequisites
-- Node v10+
+
+- [Bun](https://bun.sh/) v1.0.0 or above.
 
 ```
-npm install
+bun install
 ```
 
 ### Usage
@@ -26,19 +27,19 @@ npm install
 For a single guide:
 
 ```
-npm run generateGuide <race> <class>
+bun generateGuide <race> <class>
 ```
 
 For all guides:
 
 ```
-npm run generateAll
+bun generateAll
 ```
 
 E.g.
 
 ```
-npm run generateGuide human warrior
+bun generateGuide human warrior
 ```
 
 The generated guide can then be found at `src/tmp/Guidelime_<Race><Class>` alongside a zip file that is generated for sharing convenience.
@@ -46,5 +47,5 @@ The generated guide can then be found at `src/tmp/Guidelime_<Race><Class>` along
 ### Running Tests
 
 ```
-npm run test
+bun test
 ```
